@@ -25,16 +25,255 @@ data.head()
 # In[4]:
 
 
-data.isnull().sum()
+data.shape
 
 
 # In[5]:
 
 
-data.dtypes
+data.isnull().sum()
 
 
 # In[6]:
+
+
+data['CO_GT'].value_counts()
+
+
+# In[7]:
+
+
+data['PT08_S1_CO'].value_counts()
+
+
+# In[8]:
+
+
+data['NMHC_GT'].value_counts()
+
+
+# In[9]:
+
+
+data['C6H6_GT'].value_counts()
+
+
+# In[10]:
+
+
+data['PT08_S2_NMHC'].value_counts()
+
+
+# In[11]:
+
+
+data['Nox_GT'].value_counts()
+
+
+# In[12]:
+
+
+data['PT08_S3_Nox'].value_counts()
+
+
+# In[13]:
+
+
+data['NO2_GT'].value_counts()
+
+
+# In[14]:
+
+
+data['PT08_S4_NO2'].value_counts()
+
+
+# In[15]:
+
+
+data['PT08_S5_O3'].value_counts()
+
+
+# In[16]:
+
+
+data['T'].value_counts()
+
+
+# In[17]:
+
+
+data['RH'].value_counts()
+
+
+# In[18]:
+
+
+data['AH'].value_counts()
+
+
+# In[19]:
+
+
+data=data.drop(columns=['NMHC_GT'])
+
+
+# In[20]:
+
+
+data=data.drop(data[data['AH']==-200].index)
+
+
+# In[21]:
+
+
+data.head()
+
+
+# In[22]:
+
+
+data['CO_GT'].value_counts()
+
+
+# In[23]:
+
+
+data['PT08_S1_CO'].value_counts()
+
+
+# In[24]:
+
+
+data['C6H6_GT'].value_counts()
+
+
+# In[25]:
+
+
+data['PT08_S2_NMHC'].value_counts()
+
+
+# In[26]:
+
+
+data['Nox_GT'].value_counts()
+
+
+# In[27]:
+
+
+data['PT08_S3_Nox'].value_counts()
+
+
+# In[28]:
+
+
+data['NO2_GT'].value_counts()
+
+
+# In[29]:
+
+
+data['PT08_S4_NO2'].value_counts()
+
+
+# In[30]:
+
+
+data['PT08_S5_O3'].value_counts()
+
+
+# In[31]:
+
+
+data['T'].value_counts()
+
+
+# In[32]:
+
+
+data['RH'].value_counts()
+
+
+# In[33]:
+
+
+sns.countplot(x="CO_level", data=data)
+
+
+# In[34]:
+
+
+#fig = plt.figure(figsize=(8,6))
+data.groupby('CO_level')["CO_GT"].count().plot.bar(ylim=0)
+plt.show()
+
+
+# In[35]:
+
+
+data.groupby('CO_level')["Nox_GT"].count().plot.bar(ylim=0)
+plt.show()
+
+
+# In[36]:
+
+
+sns.violinplot(x=data["CO_GT"])
+
+
+# In[37]:
+
+
+x=data['CO_GT']
+x=x.drop(x[x==-200].index)
+a=x.mean()
+data['CO_GT']=data['CO_GT'].replace(to_replace=-200, value =a) 
+data['CO_GT'].value_counts()
+
+
+# In[38]:
+
+
+#fig = plt.figure(figsize=(8,6))
+data.groupby('CO_level')["CO_GT"].count().plot.bar(ylim=0)
+plt.show()
+
+
+# In[39]:
+
+
+x=data['Nox_GT']
+x=x.drop(x[x==-200].index)
+a=x.mean()
+data['Nox_GT']=data['Nox_GT'].replace(to_replace=-200, value =a) 
+data['Nox_GT'].value_counts()
+
+
+# In[40]:
+
+
+x=data['NO2_GT']
+x=x.drop(x[x==-200].index)
+a=x.mean()
+data['NO2_GT']=data['NO2_GT'].replace(to_replace=-200, value =a) 
+data['NO2_GT'].value_counts()
+
+
+# In[41]:
+
+
+data.head(10)
+
+
+# In[42]:
+
+
+data.dtypes
+
+
+# In[43]:
 
 
 data['Date_year']=data['Date'].dt.year
@@ -43,172 +282,150 @@ data['Date_week'] = data['Date'].dt.week
 data['Date_day'] = data['Date'].dt.day
 
 
-# In[7]:
+# In[44]:
 
 
 data['Date'] = data['Date'].dt.date
 
 
-# In[8]:
+# In[45]:
 
 
 data.dtypes
 
 
-# In[9]:
+# In[46]:
 
 
 data.head()
 
 
-# In[10]:
+# In[47]:
 
 
 data=data.drop(columns=['Date'])
 
 
-# In[11]:
+# In[48]:
 
 
 data.shape
 
 
-# In[12]:
+# In[49]:
 
 
 data['Time'].unique()
 
 
-# In[13]:
+# In[50]:
 
 
 data['Split']=data['Time'].astype(str).str.split(':')
 
 
-# In[14]:
+# In[51]:
 
 
 data.head()
 
 
-# In[15]:
+# In[52]:
 
 
 data['Time_hour']=data['Split'].map(lambda x:x[0].strip())
 
 
-# In[16]:
+# In[53]:
 
 
 data.head()
 
 
-# In[17]:
+# In[54]:
 
 
 data['Time_min']=data['Split'].map(lambda x:x[1].strip())
 
 
-# In[18]:
+# In[55]:
 
 
 data['Time_sec']=data['Split'].map(lambda x:x[2].strip())
 
 
-# In[19]:
+# In[56]:
 
 
 data=data.drop(columns=['Split'])
 
 
-# In[20]:
+# In[57]:
 
 
 data.head()
 
 
-# In[21]:
+# In[58]:
 
 
 import seaborn as sns
 sns.countplot(x="CO_level", data=data)
 
 
-# In[22]:
+# In[59]:
 
 
 x=data['CO_level']
 print(x)
 
 
-# In[23]:
+# In[63]:
 
 
-for i in range(len(x)):
-    if(x[i]=='Very High'):
-        x[i]='High'
-    elif(x[i]=='Moderate'):
-        x[i]='Low'
-    elif(x[i]=='Very low'):
-        x[i]='Low'
+data['CO_level']=data['CO_level'].replace(to_replace='Very High', value ='High')
+data['CO_level']=data['CO_level'].replace(to_replace='Moderate', value ='Low')
+data['CO_level']=data['CO_level'].replace(to_replace='Very low', value ='Low')
 
 
-# In[24]:
-
-
-print(x)
-
-
-# In[25]:
-
-
-data['CO_level']=x
-
-
-# In[26]:
+# In[64]:
 
 
 sns.countplot(x="CO_level", data=data)
 
 
-# In[27]:
+# In[65]:
 
 
 data.dtypes
 
 
-# In[28]:
+# In[66]:
 
 
 data=data.drop(columns=['Time'])
 
 
-# In[29]:
+# In[67]:
 
 
 data['Time_min'].unique()
 
 
-# In[30]:
-
-
-data.isnull().sum()
-
-
-# In[31]:
+# In[70]:
 
 
 data=data.apply(pd.to_numeric,errors="ignore")
 data.dtypes
 
 
-# In[32]:
+# In[71]:
 
 
 data=data.drop(columns=['Time_min','Time_sec'])
 
 
-# In[33]:
+# In[72]:
 
 
 from sklearn.preprocessing import LabelEncoder
@@ -216,13 +433,13 @@ a=LabelEncoder()
 data['CO_level']=a.fit_transform(data['CO_level'])
 
 
-# In[34]:
+# In[73]:
 
 
 data.head()
 
 
-# In[35]:
+# In[74]:
 
 
 fig = plt.figure(figsize=(8,6))
@@ -230,71 +447,71 @@ data.groupby('CO_level')["CO_GT"].count().plot.bar(ylim=0)
 plt.show()
 
 
-# In[36]:
+# In[75]:
 
 
 data['CO_level'].unique()
 
 
-# In[37]:
+# In[76]:
 
 
 fig = plt.figure(figsize=(8,6))
-data.groupby('CO_level')["NMHC_GT"].count().plot.bar(ylim=0)
+data.groupby('CO_level')["C6H6_GT"].count().plot.bar(ylim=0)
 plt.show()
 
 
-# In[38]:
+# In[77]:
 
 
 data.columns
 
 
-# In[39]:
+# In[78]:
 
 
 sns.violinplot(x=data["CO_GT"])
 
 
-# In[40]:
+# In[79]:
 
 
 sns.catplot(x="CO_level",y="CO_GT",data=data)
 
 
-# In[41]:
+# In[80]:
 
 
 sns.catplot(x="CO_level",y="PT08_S1_CO",data=data)
 
 
-# In[42]:
-
-
-sns.catplot(x="CO_level",y="NMHC_GT",data=data)
-
-
-# In[43]:
+# In[81]:
 
 
 sns.catplot(x="CO_level",y="C6H6_GT",data=data)
 
 
-# In[44]:
+# In[82]:
+
+
+sns.catplot(x="CO_level",y="PT08_S2_NMHC",data=data)
+
+
+# In[83]:
 
 
 train=data.drop(columns=['CO_level'])
 test=data['CO_level']
 
 
-# In[45]:
+# In[84]:
 
 
 from sklearn.model_selection import train_test_split
 x_train,x_test,y_train,y_test=train_test_split(train,test,test_size=0.2)
 
 
-# In[46]:
+# In[85]:
 
 
 from sklearn.preprocessing import StandardScaler
@@ -303,7 +520,7 @@ x_train=sc.fit_transform(x_train)
 x_test=sc.fit_transform(x_test)
 
 
-# In[51]:
+# In[86]:
 
 
 from sklearn.model_selection import GridSearchCV
@@ -313,7 +530,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
 
 
-# In[52]:
+# In[87]:
 
 
 model = DecisionTreeClassifier()
@@ -323,7 +540,7 @@ grid_result = gsc.fit(x_train, y_train)
 print('Best Param', grid_result.best_params_)
 
 
-# In[53]:
+# In[88]:
 
 
 y_pred = grid_result.best_estimator_.predict(x_test)
@@ -333,7 +550,7 @@ print("classification Report:\n",classification_report(y_test,y_pred))
 print('Confusion Matrix \n' , confusion_matrix(y_test, y_pred))
 
 
-# In[54]:
+# In[89]:
 
 
 model = RandomForestClassifier()
@@ -343,7 +560,7 @@ grid_result = gsc.fit(x_train, y_train)
 print('Best Param', grid_result.best_params_)
 
 
-# In[55]:
+# In[90]:
 
 
 y_pred = grid_result.best_estimator_.predict(x_test)
@@ -353,7 +570,7 @@ print("classification Report:\n",classification_report(y_test,y_pred))
 print('Confusion Matrix \n' , confusion_matrix(y_test, y_pred))
 
 
-# In[56]:
+# In[91]:
 
 
 model = SVC()
@@ -363,7 +580,7 @@ grid_result = gsc.fit(x_train, y_train)
 print('Best Param', grid_result.best_params_)
 
 
-# In[58]:
+# In[92]:
 
 
 y_pred = grid_result.best_estimator_.predict(x_test)
